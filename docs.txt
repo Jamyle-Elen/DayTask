@@ -1,0 +1,8 @@
+Problemas de migrations:
+- python manage.py migrate
+
+Problemas de no settings:
+- python manage.py check
+
+
+Variaveis são enviadas diretamente por um contexto (em formato de dicionario)
