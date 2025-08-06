@@ -7,7 +7,9 @@
         <div class="grid grid-cols-7 gap-4">
 
             {% for task in tasks %}
-            <div class="bg-[#92B7F6] my-2 py-4 px-6 rounded-xs shadow {% if task.completed %}bg-[#F7C35B]{% endif %}">
+            <div class="bg-[#92B7F6] my-2 py-4 px-6 rounded-xs shadow 
+            {% if task.completed %}bg-[#F7C35B]{% endif %}
+            ">
                 {% url "tasks:mark_completed" task.id as mark_url %}
                 <input
                 type="checkbox"
@@ -34,8 +36,11 @@
             </div> -->
 
             <a class="bg-[#92B7F6] font-bold text-2xl w-10 h-10 rounded-full flex text-center justify-center hover:bg-[#C9DDFF]" href="{% url 'tasks:add' %}">+</a>
-
         </div>
     </div>
+    <form method="post" action="{% url 'logout' %}">
+  {% csrf_token %}
+  <button type="submit">Logout</button>
+</form>
 </section>
 {% endblock %}
