@@ -28,7 +28,7 @@ class TasksHomeView(LoginRequiredMixin ,ListView):
 
     def get_queryset(self):
         # Filtra as tarefas do usuário logado
-        return TaskModel.objects.filter(user=self.request.user)
+        return TaskModel.objects.filter(user=self.request.user).order_by('-createAt')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
