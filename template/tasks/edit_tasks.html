@@ -1,0 +1,10 @@
+{% extends 'index.html' %}
+{% block title %}Editar tasks{% endblock %}
+{% block content %}
+    <h1>Editar tarefas</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Enviar">
+    </form>
+{% endblock %}

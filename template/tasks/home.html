@@ -1,12 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks</title>
-</head>
-<body>
-    <h1>Homepage inicial das tasks de {{name}}</h1>
-    <a href="{% url 'tasks:add' %}">Adicionar tasks</a>
-</body>
-</html>
+{% extends 'index.html' %}
+{% block title %}Home tasks{% endblock %}
+{% block content %}
+<section class="flex justify-center w-full py-10">
+    <div class="max-w-7xl">
+        <h1 class="font-medium text-center bg-[#92B7F6] min-w-content py-2 rounded-full">Homepage inicial das tasks de {{name}}</h1>
+        <div class="grid grid-cols-7 gap-4">
+
+            {% for task in tasks %}
+            <div class="bg-[#92B7F6] my-2 py-4 px-6 rounded-xs shadow {% if task.completed %}bg-[#F7C35B]{% endif %}">
+                {% url "tasks:mark_completed" task.id as mark_url %}
+                <input
+                type="checkbox"
+                {% if task.completed %}checked{% endif %}
+                onclick='window.location.href="{{ mark_url }}"'
+                />
+
+                <label for="">{{task.name}}</label>
+                <p class="trucate line-clamp-2" name="" id="">{{task.description}}</p>
+                {% if task.completed %}
+                <p>✔</p>
+                {% endif %}
+                <p>{{task.priority}}</p>
+                <a class="bg-[#92B7F6] font-bold text-2xl w-10 h-10 rounded-full flex text-center justify-center hover:bg-[#C9DDFF]" href="{% url 'tasks:edit' task.id %}">Editar</a>
+                <a class="bg-[#92B7F6] font-bold text-2xl w-10 h-10 rounded-full flex text-center justify-center hover:bg-[#C9DDFF]" href="{% url 'tasks:remove' task.id %}">Remover</a>
+            </div>
+            {% endfor %}
+
+            <!-- <div class="bg-[#92B7F6] my-2 py-4 px-6 rounded-xs shadow">
+                <label for="Name">Title example</label>
+                <p class="trucate line-clamp-2">Description example Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam minima porro dolor cupiditate nobis perferendis animi explicabo? Ipsum, fugit eaque.</p>
+                <p>IN PROGRESS</p>
+                <p>MEDIUM</p>
+            </div> -->
+
+            <a class="bg-[#92B7F6] font-bold text-2xl w-10 h-10 rounded-full flex text-center justify-center hover:bg-[#C9DDFF]" href="{% url 'tasks:add' %}">+</a>
+
+        </div>
+    </div>
+</section>
+{% endblock %}
