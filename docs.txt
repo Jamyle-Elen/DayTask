@@ -18,3 +18,11 @@ Variaveis são enviadas diretamente por um contexto (em formato de dicionario)
 3. Visualização:
 - Tarefas devem ser exibidas em ordem decrescente de criação - OK
 - Indicar visualmente se a tarefa está concluída ou não - OK
+
+
+🔧 Requisitos Técnicos
+- Django 4.x ou superior. - OK
+- Banco de dados SQLite. - OK
+- Uso de Class-Based Views. - OK
+- Templates HTML com CSS básico. - OK
+- Implementação de rotas protegidas. - OK
