@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+
+{% block title %}Editar task{% endblock %}
+
+{% block content %}
+
+<div class="flex items-center justify-center min-h-screen">
+    <div class="bg-[#92B7F6] shadow-lg rounded-xl p-8 w-full max-w-md border-4 border-[#668CCE]"
+        style="transform: rotate(-2deg);">
+        <div class="flex justify-between align-center text-align mb-2">
+            <a href="{% url 'tasks:home' %}"><span
+                    class="text-2xl text-yellow-900 inline-block rotate-180 mb-3">➔</span></a>
+            <h1 class="text-2xl font-bold text-yellow-900 mb-4 text-center">Editar Tarefa</h1>
+            <span></span>
+        </div>
+
+        <form action="" method="post" class="space-y-4">
+            {% csrf_token %}
+
+            <div class="space-y-2 text-yellow-900 font-medium">
+                {{ form.as_p }}
+            </div>
+
+            <input type="submit" value="Atualizar tarefa"
+                class="w-full bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-semibold py-2 px-4 rounded-lg shadow transition duration-300 cursor-pointer">
+        </form>
+    </div>
+</div>
+{% endblock %}
