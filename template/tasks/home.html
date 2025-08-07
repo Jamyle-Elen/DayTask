@@ -27,13 +27,15 @@
                     Concluída
                 </p>
                 {% endif %}
-
+                
                 <div class="flex items-center gap-2 my-2">
-                    {% url "tasks:mark_completed" task.id as mark_url %}
-                    <input type="checkbox" {% if task.completed %}checked{% endif %}
-                        onclick='window.location.href="{{ mark_url }}"' class="w-5 h-5 accent-green-600" />
-                    <label class="text-lg font-semibold">{{task.name}}</label>
-                </div>
+                    <form action="{% url 'tasks:mark_completed' task.pk %}" method="post" class="inline-block">
+                    {% csrf_token %}
+                    <input type="checkbox" name="completed" {% if task.completed %}checked{% endif %} onchange="this.form.submit()" class="w-5 h-5 accent-green-600"/>
+                    <label>{{ task.name }}</label>
+                    </form>
+
+                    </div>
 
                 <p class="text-sm line-clamp-2 mb-8">{{task.description}}</p>
 
@@ -61,7 +63,7 @@
                         </svg>
                     </a>
 
-                    <a href="{% url 'tasks:remove' task.id %}" class="hover:scale-110 transition" title="Remover">
+                    <a href="{% url 'tasks:delete' task.id %}" class="hover:scale-110 transition" title="Deletar task">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black hover:text-gray-700"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

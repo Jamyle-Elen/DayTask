@@ -1,79 +1,79 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TaskForm
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from .models import TaskModel
 from accounts.models import UserModel
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView, View
+from django.urls import reverse_lazy
+from django.contrib import messages
 
-# Create your views here.
-
-# @login_required
-# def tasks_home(request):
-#     tasks = TaskModel.objects.filter(user=request.user)
-#     context = {
-#         "tasks": tasks,
-#         "name": request.user.first_name or request.user.username,
-#     }
-#     return render(request, 'tasks/home.html', context)
-
-# to study
-# comparado com a funçao de cima, usar CBV's ajuda a reaproveitar o codigo e nele tem algumas funções prontas (genericas)
-# @login_required       em classes não se usa o decorador @login_required, pq se não força ele a ter o comportamento de uma função e não uma classe
-class TasksHomeView(LoginRequiredMixin ,ListView):
+class TasksHomeView(LoginRequiredMixin, ListView):
     model = TaskModel
-    template_name = 'tasks/home.html'  # template utilizado
-    context_object_name = 'tasks'  # nome da variável no template
+    template_name = 'tasks/home.html'
+    context_object_name = 'tasks'
 
     def get_queryset(self):
-        # Filtra as tarefas do usuário logado
         return TaskModel.objects.filter(user=self.request.user).order_by('-createAt')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # adiciona o nome do usuário ao contexto
         context['name'] = self.request.user.first_name or self.request.user.username
         return context
 
-# --------------------------------
-
-@login_required
-def tasks_add(request):
+class TaskCreateView(LoginRequiredMixin, CreateView): # OK
+    model = TaskModel
+    template_name = 'tasks/add_tasks.html'
+    form_class = TaskForm
+    context_object_name = 'task'
+    success_url = reverse_lazy('tasks:home')
     
-    if request.method == "POST":
-        form = TaskForm(request.POST)
-        if form.is_valid():
-            task = form.save(commit=False)
-            task.user = request.user
-            task.save()
-            return redirect("tasks:home")
-    context = {
-        "form": TaskForm
-    }
-    return render(request, "tasks/add_tasks.html", context)
+    def get_queryset(self):
+        return TaskModel.objects.filter(user=self.request.user)
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-def tasks_remove(request:HttpRequest, id):
-    task = get_object_or_404(TaskModel, id=id)
-    task.delete()
-    return redirect("tasks:home")
+    def form_invalid(self, form):
+        messages.error(self.request, "Erro no envio dos dados, verifique-os")
+        return super().form_invalid(form)
 
-@login_required
-def tasks_edit(request:HttpRequest, id):
-    task = get_object_or_404(TaskModel, id=id)
-    if request.method == "POST":
-        form = TaskForm(request.POST, instance=task)
-        if form.is_valid():
-            form.save()
-            return redirect("tasks:home")
-    form = TaskForm(instance=task)
-    context = {
-        "form": form
-    }
-    return render(request, "tasks/edit_tasks.html", context)
+class TaskDeleteView(LoginRequiredMixin, DeleteView): #OK
+    model = TaskModel
+    context_object_name = 'task'
+    template_name = 'tasks/taskmodel_confirm_delete.html'
+    success_url = reverse_lazy('tasks:home')
 
-def tasks_mark_completed(request:HttpRequest, id):
-    task = get_object_or_404(TaskModel, id=id)
-    task.completed = True
-    task.save()
-    return redirect("tasks:home")
+class TaskUpdateView(LoginRequiredMixin, UpdateView): #OK
+    model = TaskModel
+    template_name = 'tasks/edit_tasks.html'
+    form_class = TaskForm
+    context_object_name = 'task'
+    success_url = reverse_lazy('tasks:home')
+    
+    def get_queryset(self):
+        return TaskModel.objects.filter(user=self.request.user)
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Erro ao editar dos dados, verifique-os")
+        return super().form_invalid(form)
+
+class TaskMarkCompleted(LoginRequiredMixin, View):
+    model = TaskModel
+    context_object_name = 'task'
+    form_class = TaskForm
+    sucess_url = reverse_lazy('tasks:home')
+    
+    def post(self, request, *args, **kwargs):
+        task = get_object_or_404(TaskModel, pk=self.kwargs["pk"], user=request.user)
+        task.completed = True
+        sucess_url = reverse_lazy('tasks:home')
+        task.save()
+        print("foi")
+        return redirect('tasks:home')
