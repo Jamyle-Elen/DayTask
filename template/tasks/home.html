@@ -15,27 +15,28 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-6">
             {% for task in tasks %}
             <div class="rounded-xs shadow-md transition-transform duration-300 transform hover:scale-105 p-5 text-gray-800 relative
-  {% if task.completed %}
-    bg-[#F7C35B]
-  {% else %}
-    bg-[#92B7F6]
-  {% endif %}
-">
+            {% if task.completed %}
+            bg-[#F7C35B]
+            {% else %}
+            bg-[#92B7F6]
+            {% endif %}
+            ">
                 {% if task.completed %}
                 <p
                     class="absolute top-2 left-2 min-w-max text-xs font-semibold text-green-900 bg-green-200 px-2 rounded-full shadow-sm">
                     Concluída
                 </p>
                 {% endif %}
-                
+
                 <div class="flex items-center gap-2 my-2">
                     <form action="{% url 'tasks:mark_completed' task.pk %}" method="post" class="inline-block">
-                    {% csrf_token %}
-                    <input type="checkbox" name="completed" {% if task.completed %}checked{% endif %} onchange="this.form.submit()" class="w-5 h-5 accent-green-600"/>
-                    <label>{{ task.name }}</label>
+                        {% csrf_token %}
+                        <input type="checkbox" name="completed" {% if task.completed %}checked{% endif %}
+                            onchange="this.form.submit()" class="w-5 h-5 accent-green-600" />
+                        <label>{{ task.name }}</label>
                     </form>
 
-                    </div>
+                </div>
 
                 <p class="text-sm line-clamp-2 mb-8">{{task.description}}</p>
 
