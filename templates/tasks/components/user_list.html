@@ -1,0 +1,304 @@
+{% load static %}
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-material.css" />
+
+<style>
+
+  .ag-theme-material .ag-root-wrapper {
+  border: none !important;
+  box-shadow: none !important;
+}
+  /* Linha com sombra leve e espaçamento */
+  .ag-theme-material .ag-row {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+    margin: 4px 0;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+  }
+  /* Hover nas linhas */
+  .ag-theme-material .ag-row:hover {
+    background-color: #e3f2fd !important; /* azul clarinho */
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  }
+  /* Espaçamento e sombra no header */
+  .ag-theme-material .ag-header {
+    background-color: #cba5fc5d !important;
+    font-weight: 600;
+    font-size: 1.05rem;
+    border-bottom: none !important;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+    border-radius: 8px 8px 0 0;
+  }
+  /* Remover linha de grade entre colunas para um visual mais limpo */
+  .ag-theme-material .ag-cell, 
+  .ag-theme-material .ag-header-cell {
+    border-right: none !important;
+  }
+
+  /* Container do paginator */
+.ag-theme-material .ag-paging-panel {
+  background-color: #f3e8ff; /* lilás clarinho */
+  border-top: 1px solid #d1b3ff;
+  padding: 8px 12px;
+  border-radius: 0 0 8px 8px;
+  gap: 10px;
+}
+
+/* Botões de paginação */
+.ag-theme-material .ag-pagination-button {
+  background-color: #a37aff;
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.15);
+}
+
+/* Botão desabilitado */
+.ag-theme-material .ag-pagination-button.ag-disabled {
+  background-color: #cbb4f9;
+  cursor: default;
+  box-shadow: none;
+  color: #7a5aff;
+}
+
+/* Hover nos botões */
+.ag-theme-material .ag-pagination-button:not(.ag-disabled):hover {
+  background-color: #7a5aff;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.25);
+}
+
+/* Números da paginação */
+.ag-theme-material .ag-pagination-number {
+  font-weight: 700;
+  color: #5928ff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Número da página ativa */
+.ag-theme-material .ag-pagination-number.ag-selected {
+  background-color: #7a5aff;
+  color: white;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.25);
+}
+
+</style>
+
+<!-- AG GRID -->
+<div id="myGrid" class="ag-theme-material shadow" style="height: 100%; width: 100%;"></div>
+
+<!-- MODAL -->
+<div id="editUserModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index: 9999;">
+  <div style="background:white; max-width:600px; margin: 6% auto; padding: 20px; border-radius: 8px; position:relative; max-height:80vh; overflow:auto;">
+    <button onclick="fecharModalEditarUsuario()" style="position:absolute; top:10px; right:10px; font-weight:bold; font-size:18px;">×</button>
+    <div id="modalContent">
+      <!-- Formulário carregado por AJAX vai aqui -->
+    </div>
+  </div>
+</div>
+
+<script>
+  const users_json = JSON.parse('{{ users_json|escapejs }}');
+  const rowData = [...users_json];
+
+  const gridOptions = {
+    columnDefs: [
+      { field: 'id' },
+      { field: 'name' },
+      { field: 'cpf' },
+      { field: 'sex' },
+      { field: 'age' },
+      { field: 'email' },
+      { field: 'address__state' },
+      {
+        headerName: 'Ações',
+        cellRenderer: function (params) {
+          const editUserUrlTemplate = "{% url 'accounts:edit_user' 0 %}".replace('0', '__id__');
+          const url = editUserUrlTemplate.replace('__id__', params.data.id)
+          const deleteUserUrlTemplate = "{% url 'accounts:delete_user' 0 %}".replace('0', '__id__');
+          const urlDelete = deleteUserUrlTemplate.replace('__id__', params.data.id);
+          return `
+            <div class="flex gap-2 mt-2">
+              <button class="edit-btn" data-id="${params.data.id}" title="Editar" onclick="event.stopPropagation(); abrirModalEditarUsuario(${params.data.id})">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5M18.5 2.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+              </button>
+
+              <button class="delete-btn" data-id="${params.data.id}" title="Excluir">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4m-4 0a1 1 0 00-1 1v1h6V4a1 1 0 00-1-1m-4 0h4" />
+                </svg>
+              </button>
+            </div>
+          `;
+        },
+      },
+    ],
+    rowData: rowData,
+    defaultColDef: { sortable: true, filter: true, flex: 1 },
+    pagination: true,
+    paginationPageSize: 10,
+    rowHeight: 50,
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const gridDiv = document.querySelector('#myGrid');
+    agGrid.createGrid(gridDiv, gridOptions);
+
+    const overlay = document.getElementById('editUserModal');
+    overlay.addEventListener('click', (e) => {
+      if (e.target && e.target.id === 'editUserModal') {
+        fecharModalEditarUsuario();
+      }
+    });
+  });
+
+  function abrirModalEditarUsuario(userId) {
+    const modal = document.getElementById('editUserModal');
+    const modalContent = document.getElementById('modalContent');
+    modal.style.display = 'block';
+    modalContent.innerHTML = '<p>Carregando...</p>';
+
+    fetch(`/accounts/edit_user/${userId}/?modal=1`)
+      .then(response => {
+        if (!response.ok) throw new Error('Erro na requisição');
+        return response.json();
+      })
+      .then(data => {
+        modalContent.innerHTML = data.html_form;
+        initializeModal(modalContent);
+      })
+      .catch(err => {
+        console.error(err);
+        modalContent.innerHTML = '<p>Erro ao carregar formulário.</p>';
+      });
+  }
+
+  function initializeModal(container) {
+    // elementos do step
+    const form = container.querySelector('form');
+    const nextBtn = container.querySelector('#nextBtn');
+    const prevBtn = container.querySelector('#prevBtn');
+    const step1 = container.querySelector('#step1');
+    const step2 = container.querySelector('#step2');
+    const progress1 = container.querySelector('#progress1');
+    const progress2 = container.querySelector('#progress2');
+    const progressLine = container.querySelector('#progress-line');
+
+    function setStep(step) {
+      if (!step1 || !step2) return;
+      if (step === 1) {
+        step1.classList.remove('hidden');
+        step2.classList.add('hidden');
+        if (progress1) { progress1.classList.remove('bg-purple-200'); progress1.classList.add('bg-purple-400','text-white'); }
+        if (progress2) { progress2.classList.remove('bg-purple-400','text-white'); progress2.classList.add('bg-purple-200'); }
+        if (progressLine) { progressLine.classList.remove('bg-purple-400'); progressLine.classList.add('bg-purple-200'); }
+      } else {
+        step1.classList.add('hidden');
+        step2.classList.remove('hidden');
+        if (progress2) { progress2.classList.remove('bg-purple-200'); progress2.classList.add('bg-purple-400','text-white'); }
+        if (progress1) { progress1.classList.remove('bg-purple-400','text-white'); progress1.classList.add('bg-purple-200'); }
+        if (progressLine) { progressLine.classList.remove('bg-purple-200'); progressLine.classList.add('bg-purple-400'); }
+      }
+    }
+
+    // garantir estado inicial
+    setStep(1);
+
+    if (nextBtn) nextBtn.addEventListener('click', (e) => { e.preventDefault(); setStep(2); });
+    if (prevBtn) prevBtn.addEventListener('click', (e) => { e.preventDefault(); setStep(1); });
+
+    // submit via AJAX (o formulário já inclui {% csrf_token %})
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+        fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        })
+        .then(res => {
+          if (!res.ok) throw new Error('Erro ao salvar');
+          return res.json();
+        })
+        .then(data => {
+          if (data.success) {
+            // atualiza a página /
+            location.reload();
+          } else {
+            // re-render do formulário com erros -> re-inicializar
+            container.innerHTML = data.html_form;
+            initializeModal(container);
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Erro ao salvar. Veja o console para detalhes.');
+        });
+      });
+    }
+  }
+
+  function fecharModalEditarUsuario() {
+    const modal = document.getElementById('editUserModal');
+    const modalContent = document.getElementById('modalContent');
+    modal.style.display = 'none';
+    modalContent.innerHTML = '';
+  }
+
+  document.addEventListener('click', function (event) {
+  if (event.target.closest('.delete-btn')) {
+    const userId = event.target.closest('.delete-btn').dataset.id;
+
+    if (confirm('Tem certeza que deseja excluir este usuário?')) {
+      fetch(`/accounts/delete_user/${userId}/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+          'X-Requested-With': 'XMLHttpRequest',
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert('Usuário deletado com sucesso!');
+          location.reload();
+        } else {
+          alert('Erro ao deletar usuário.');
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Erro ao deletar. Veja o console para mais detalhes.');
+      });
+    }
+  }
+});
+
+// Função para pegar o CSRFToken do cookie
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+</script>

@@ -1,0 +1,42 @@
+<div id="myGrid" class="ag-theme-alpine"></div>
+
+  <script>
+    const columnDefs = [
+      {
+        headerName: "Sexo",
+        field: "sex",
+        width: 100,
+        cellRenderer: params => {
+          if(params.value === 'M'){
+            return '<img src="{% static "images/photo_profile_male.png" %}" width="30" alt="M">';
+          }
+          if(params.value === 'F'){
+            return '<img src="{% static "images/photo_profile_female.png" %}" width="30" alt="F">';
+          }
+          return params.value;
+        }
+      },
+      { headerName: "Nome", field: "name", editable: true, filter: 'agTextColumnFilter' },
+      { headerName: "Idade", field: "age", filter: 'agNumberColumnFilter' },
+      { headerName: "Email", field: "email", editable: true },
+    ];
+
+
+    const gridOptions = {
+      columnDefs: columnDefs,
+      rowData: rowData,
+      pagination: true,
+      paginationPageSize: 10,
+      defaultColDef: {
+        sortable: true,
+        filter: true,
+        resizable: true,
+      },
+      onCellValueChanged: event => {
+        console.log('Cell value changed', event);
+      }
+    };
+
+    const eGridDiv = document.querySelector('#myGrid');
+    new agGrid.Grid(eGridDiv, gridOptions);
+  </script>

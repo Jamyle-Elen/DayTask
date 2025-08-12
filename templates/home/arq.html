@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home: Task - Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+
+<div class="flex min-h-screen">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-200 flex flex-col p-6 space-y-6">
+    <div class="flex items-center space-x-3 mb-10">
+      <div class="w-8 h-8 rounded-full bg-pink-400 flex items-center justify-center text-white font-bold text-lg">●</div>
+      <span class="font-bold text-lg">Moka</span>
+    </div>
+    <nav class="flex flex-col space-y-3 text-gray-600 text-sm font-semibold">
+      <a href="#" class="hover:text-gray-900">Main</a>
+      <a href="#" class="bg-white rounded px-3 py-2 shadow text-indigo-700 hover:text-indigo-900 font-bold flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+        Profile
+      </a>
+      <a href="#" class="hover:text-gray-900 flex items-center gap-2 text-gray-400 cursor-not-allowed" aria-disabled="true">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+        Team
+      </a>
+      <a href="#" class="hover:text-gray-900 flex items-center gap-2 text-gray-400 cursor-not-allowed" aria-disabled="true">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 00-4-4H5m4 6h6" /></svg>
+        Documents
+      </a>
+      <a href="#" class="hover:text-gray-900 flex items-center gap-2 text-gray-400 cursor-not-allowed" aria-disabled="true">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17a4 4 0 01-4-4m0 0V7a4 4 0 018 0v6a4 4 0 01-4 4z" /></svg>
+        Settings
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="flex-grow p-8">
+    <h1 class="text-3xl font-bold mb-1">Profile</h1>
+    <p class="text-gray-600 mb-8">Short description here</p>
+
+    <div class="flex gap-8">
+      <!-- Left panel: Profile Card -->
+      <section class="w-80 bg-white rounded-xl shadow p-6 flex flex-col space-y-6">
+        <!-- User Info -->
+        <div class="flex flex-col items-center space-y-3">
+          <div class="rounded-full bg-orange-400 w-20 h-20 flex items-center justify-center text-white text-4xl font-bold uppercase">
+            P
+          </div>
+          <h2 class="font-bold text-lg">Pikamy Cha</h2>
+          <p class="text-gray-500 text-sm">Canada</p>
+        </div>
+
+        <!-- Followers/Following -->
+        <div class="flex justify-between border rounded p-3">
+          <div class="flex flex-col items-center border-r pr-6">
+            <span class="text-indigo-600 font-bold text-xl">263</span>
+            <span class="text-xs text-gray-500">Followings</span>
+          </div>
+          <div class="flex flex-col items-center pl-6">
+            <span class="text-yellow-500 font-bold text-xl">300</span>
+            <span class="text-xs text-gray-500">Followers</span>
+          </div>
+        </div>
+
+        <!-- Follow Button -->
+        <button class="bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded py-2 transition">Follow Now</button>
+
+        <!-- About Me -->
+        <div class="text-sm text-gray-700 space-y-1">
+          <p class="font-bold">About Me</p>
+          <p>Hi I'm Pikamy, has been the industry's standard dummy text ever since the 1500s.</p>
+          <p><strong>Mobile</strong> 063534424252</p>
+          <p><strong>Email</strong> name@domain.com</p>
+        </div>
+
+        <!-- Social -->
+        <div class="flex justify-center space-x-4">
+          <a href="#" aria-label="Facebook" class="text-blue-600 hover:text-blue-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.879v-6.987H7.898v-2.892h2.54V9.845c0-2.507 1.492-3.89 3.777-3.89 1.094 0 2.238.196 2.238.196v2.462h-1.26c-1.243 0-1.63.77-1.63 1.562v1.875h2.773l-.443 2.892h-2.33v6.987C18.343 21.128 22 16.991 22 12z"/></svg>
+          </a>
+          <a href="#" aria-label="Twitter" class="text-sky-400 hover:text-sky-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14.86 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+          </a>
+          <a href="#" aria-label="YouTube" class="text-red-600 hover:text-red-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-1.83-.169-6.115-.169-6.115-.169s-4.28 0-6.11.168c-2.37.218-3.826 2.06-3.826 4.315v4.706c0 2.256 1.457 4.097 3.827 4.314 1.83.169 6.115.169 6.115.169s4.28 0 6.11-.169c2.37-.217 3.826-2.058 3.826-4.314V7.5c0-2.256-1.456-4.098-3.827-4.316zM10 14.15v-4.4l4.3 2.2-4.3 2.2z"/></svg>
+          </a>
+          <a href="#" aria-label="Google" class="text-red-400 hover:text-red-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 11.983v2.334h3.991c-.161 1.02-1.44 2.998-3.991 2.998-2.41 0-4.383-2-4.383-4.462 0-2.462 1.973-4.462 4.383-4.462 1.37 0 2.29.58 2.825 1.086l1.923-1.846C15.307 8.02 13.81 7.2 12 7.2c-4.212 0-7.623 3.458-7.623 7.706 0 4.248 3.411 7.706 7.623 7.706 4.401 0 7.332-3.179 7.332-7.655 0-.518-.058-.92-.131-1.318H12z"/></svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- Right panel: Messages -->
+      <section class="flex-grow flex flex-col space-y-6">
+        <!-- Post message form -->
+        <form class="bg-white p-4 rounded shadow flex flex-col" method="POST" action="#">
+          <textarea
+            placeholder="Post a new message"
+            rows="3"
+            class="border border-gray-200 rounded p-2 mb-2 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            name="message"
+          ></textarea>
+          <div class="flex items-center justify-between">
+            <div class="flex space-x-3 text-gray-400 text-lg">
+              <button type="button" aria-label="Add user" class="hover:text-indigo-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9v6M21 12h-6m-2 7a4 4 0 01-4-4V7a4 4 0 014-4h6a4 4 0 014 4v6a4 4 0 01-4 4z"/></svg></button>
+              <button type="button" aria-label="Send" class="hover:text-indigo-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/></svg></button>
+              <button type="button" aria-label="Emoji" class="hover:text-indigo-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 14s1 1.5 4 1.5 4-1.5 4-1.5" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg></button>
+            </div>
+            <button type="submit" class="bg-indigo-600 text-white px-4 py-1 rounded hover:bg-indigo-700 transition">Send</button>
+          </div>
+        </form>
+
+        <!-- Messages list -->
+        <div class="bg-white rounded-xl shadow divide-y divide-gray-200">
+          <!-- Message -->
+          <div class="p-4 flex space-x-4">
+            <div class="flex-shrink-0 rounded-full bg-orange-300 w-12 h-12 flex items-center justify-center text-white font-bold uppercase">M</div>
+            <div class="flex-grow">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-bold">Milan Gbah</span>
+                <small class="text-gray-400 text-xs">about 3 days ago</small>
+              </div>
+              <p class="text-gray-700 mb-2 text-sm">
+                Hi I'm Gbah, has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of type.
+              </p>
+              <div class="flex space-x-1 mb-2">
+                <img src="{% static 'images/sample1.jpg' %}" alt="img1" class="w-16 h-12 object-cover rounded" />
+                <img src="{% static 'images/sample2.jpg' %}" alt="img2" class="w-16 h-12 object-cover rounded" />
+                <img src="{% static 'images/sample3.jpg' %}" alt="img3" class="w-16 h-12 object-cover rounded" />
+                <img src="{% static 'images/sample4.jpg' %}" alt="img4" class="w-16 h-12 object-cover rounded" />
+              </div>
+              <div class="flex space-x-2 text-gray-400 text-sm">
+                <button class="hover:text-pink-500 flex items-center space-x-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9l-4 4m0-4l4 4"/></svg>
+                  <span>Like</span>
+                </button>
+                <button class="hover:text-gray-600 flex items-center space-x-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14l4-4m0 4l-4-4"/></svg>
+                  <span>Dislike</span>
+                </button>
+                <button class="hover:text-indigo-600 font-semibold text-sm">Reply</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Message -->
+          <div class="p-4 flex space-x-4 bg-gray-50">
+            <div class="flex-shrink-0 rounded-full bg-green-400 w-12 h-12 flex items-center justify-center text-white font-bold uppercase">H</div>
+            <div class="flex-grow">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-bold">Hebik</span>
+                <small class="text-gray-400 text-xs">about 1 day ago</small>
+              </div>
+              <p class="text-gray-600 text-sm">
+                Hi I'm Hebik, has been the industry's standard dummy.
+              </p>
+              <div class="flex space-x-2 text-gray-400 text-sm">
+                <button disabled class="cursor-not-allowed flex items-center space-x-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-30" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9l-4 4m0-4l4 4"/></svg>
+                  <span>Like</span>
+                </button>
+                <button disabled class="cursor-not-allowed flex items-center space-x-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-30" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14l4-4m0 4l-4-4"/></svg>
+                  <span>Dislike</span>
+                </button>
+                <button class="hover:text-indigo-600 font-semibold text-sm">Reply</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Message -->
+          <div class="p-4 flex space-x-4">
+            <div class="flex-shrink-0 rounded-full bg-teal-400 w-12 h-12 flex items-center justify-center text-white font-bold

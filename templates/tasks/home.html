@@ -1,0 +1,91 @@
+{% extends 'index.html' %}
+{% block title %}Home tasks{% endblock %}
+{% block content %}
+{% load static %}
+<section class="flex flex-col md:flex-row">
+    <!-- sidebar -->
+    {% include 'tasks/components/sidebar.html' %}
+    <!-- Main content -->
+    <main class="flex-grow p-8">
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold mb-1">Profile</h1>
+                <p class="text-gray-600">Seu perfil de informações</p>
+            </div>
+            <!-- Top right icons -->
+            <div class="flex items-center space-x-6">
+                <abbr title="Você ainda não pode utilizar as mensagens">
+                    <button aria-label="Messages" class="text-gray-500 hover:text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor"
+                            stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 8h2a2 2 0 012 2v7a2 2 0 01-2 2h-6l-4 4v-4H7a2 2 0 01-2-2v-2" />
+                        </svg>
+                    </button>
+                </abbr>
+                <abbr title="{% if pending_tasks > 0 %}Você tem {{ pending_tasks }} tarefas pendentes{% else %}Nenhuma tarefa pendente{% endif %}">
+                    <a href="{% url 'tasks:list' %}" aria-label="Notificações" class="relative text-gray-500 hover:text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor"
+                            stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                        {% if pending_tasks > 0 %}
+                            <span class="absolute top-0 right-0 block w-2 h-2 bg-red-600 rounded-full"></span>
+                        {% endif %}
+                    </a>
+                </abbr>
+                <abbr title="Foto de perfil">
+                    <button aria-label="User Profile" class="rounded-full overflow-hidden w-10 h-10">
+                        {% if user.is_superuser %}
+                        <img class="rounded-full" src="{% static 'images/photo_profile_admin.avif' %}" alt="Admin">
+                        {% elif sex == 'M' %}
+                        <img src="{% static 'images/photo_profile_male.png' %}" alt="">
+                        {% elif sex == 'F' %}
+                        <img src="{% static 'images/photo_profile_female.png' %}" alt="">
+                        {% endif %}
+                    </button>
+                </abbr>
+            </div>
+        </div>
+
+        <div class="flex gap-8">
+            {% include 'tasks/components/profile_card.html' %}
+
+            <section class="flex-grow flex flex-col space-y-6">
+                <!-- post de form para mensagens -->
+                {% include 'tasks/components/post_message.html' %}
+
+                {% if user.is_superuser %}
+                <!-- lista de usuarios -->
+                {% include 'tasks/components/user_list.html' with users_json=users_json %}
+                {% else %}
+                <!-- Lista de Tasks -->
+                {% include 'tasks/components/task_list.html' %}
+                {% endif %}
+            </section>
+            
+        </div>
+
+        {% if user.is_superuser %}
+        <section class="bg-white mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-5 mx-auto w-full">
+            {% with container_id='chart-container-1' canvas_id='userChart1' title='Usuários cadastrados por dia' labels=chart_data_dates_json data=chart_data_counts_json border_color='#7a5aff' background_color='#a37aff' x_axis_title='Data' y_axis_title='Usuários' %}
+                {% include 'metrics/components/chart_line_base.html' %}
+            {% endwith %}
+
+            {% with container_id='chart-container-2' canvas_id='userChart2' title='Tasks por dia (MANUTENÇÃO)' labels=chart_data_dates_json data=chart_data_counts_json border_color='#ff7a5a' background_color='#ffa37a' x_axis_title='Data' y_axis_title='Quantidade' %}
+                {% include 'metrics/components/chart_line_base.html' %}
+            {% endwith %}
+
+            {% with container_id='chart-container-dfgsdfgdfg' canvas_id='userChart3' title='Número de acessos diários (MANUTENÇÃO)' labels=chart_data_dates_json data=chart_data_counts_json border_color='#5a7aff' background_color='#7aa3ff' x_axis_title='Data' y_axis_title='Valores' %}
+                {% include 'metrics/components/chart_line_base.html' %}
+            {% endwith %}
+        </section>
+
+        
+        {% endif %}
+        
+
+
+    </main>
+</section>
+{% endblock %}

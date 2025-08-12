@@ -1,0 +1,78 @@
+<form method="post" action="{% url 'accounts:edit_user' user.id %}?modal=1" id="userUpdateForm"
+      class="max-w-lg mx-auto bg-purple-50 p-6 rounded-2xl shadow-xl font-sans text-purple-900">
+  {% csrf_token %}
+
+  <div class="flex justify-center mb-8">
+    <div class="flex items-center">
+      <div id="progress1"
+           class="w-10 h-10 flex items-center justify-center rounded-full bg-purple-400 text-white font-bold shadow-md transition">
+        1
+      </div>
+      <div class="w-16 h-1 bg-purple-200 mx-2 transition" id="progress-line"></div>
+      <div id="progress2"
+           class="w-10 h-10 flex items-center justify-center rounded-full bg-purple-200 text-purple-500 font-bold shadow-md transition">
+        2
+      </div>
+    </div>
+  </div>
+
+  <!-- Passo 1 -->
+  <div id="step1" class="animate-fade-in">
+    <h3 class="mb-4 font-bold text-lg flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-purple-500" fill="none" viewBox="0 0 24 24"
+           stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A9 9 0 1118.879 6.196M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+      </svg>
+      Dados do Usuário
+    </h3>
+    <div class="space-y-3">
+      {{ user_form.as_p }}
+    </div>
+    <button type="button" id="nextBtn"
+            class="mt-4 bg-purple-500 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-full flex items-center gap-2 transition">
+      Próximo
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2"
+           stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Passo 2 -->
+  <div id="step2" class="hidden animate-fade-in">
+    <h3 class="mb-4 font-bold text-lg flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-purple-500" fill="none" viewBox="0 0 24 24"
+           stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/>
+      </svg>
+      Endereço
+    </h3>
+    <div class="space-y-3">
+      {{ address_form.as_p }}
+    </div>
+    <div class="flex justify-between mt-4">
+      <button type="button" id="prevBtn"
+              class="bg-purple-200 hover:bg-purple-400 text-purple-800 hover:text-white font-semibold py-2 px-6 rounded-full flex items-center gap-2 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2"
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Anterior
+      </button>
+
+      <button type="submit"
+              class="bg-purple-600 hover:bg-purple-800 text-white font-semibold py-2 px-6 rounded-full flex items-center gap-2 transition">
+        Salvar
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2"
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</form>
+
+<style>
+@keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade-in { animation: fade-in 0.3s ease forwards; }
+</style>

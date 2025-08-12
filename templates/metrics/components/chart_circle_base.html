@@ -1,0 +1,40 @@
+<p class="font-medium text-gray-400">{{ chart_title }}</p>
+<canvas id="{{ canvas_id }}" width="400" height="400"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  (function(){
+    function createDonutChart(canvasId, labels, dataValues, colors) {
+      const ctx = document.getElementById(canvasId).getContext('2d');
+      const defaultColors = ['#FF6384', '#36A2EB', '#FFCE56', '#8AFF33', '#FF7F50', '#9370DB'];
+      const chartColors = colors && colors.length >= labels.length ? colors : defaultColors;
+      const data = {
+        labels: labels,
+        datasets: [{
+          data: dataValues,
+          backgroundColor: chartColors.slice(0, labels.length),
+          hoverOffset: 30
+        }]
+      };
+      const config = {
+        type: 'doughnut',
+        data: data,
+        options: {
+          cutout: '50%',
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      };
+      return new Chart(ctx, config);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const labels = JSON.parse('{{ chart_labels|default:"[]"|escapejs }}');
+    const values = JSON.parse('{{ chart_values|default:"[]"|escapejs }}');
+      createDonutChart('{{ canvas_id }}', labels, values);
+    });
+  })();
+</script>

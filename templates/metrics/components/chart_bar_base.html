@@ -1,0 +1,34 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<p class="font-medium text-gray-400">{{ chart_title }}</p>
+<canvas id="{{ canvas_id }}" width="400" height="400"></canvas>
+
+<script>
+  (function() {
+    const ctx = document.getElementById('{{ canvas_id }}').getContext('2d');
+    const labels = JSON.parse('{{ chart_labels|escapejs }}');
+    const values = JSON.parse('{{ chart_values|escapejs }}');
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '{{ chart_title }}',
+          data: values,
+          backgroundColor: '#6366F1',
+          borderColor: '#4F46E5',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 1 } }
+        },
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+  })();
+</script>

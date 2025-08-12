@@ -1,0 +1,29 @@
+<form class="bg-white p-4 rounded shadow flex flex-col" method="POST" action="#">
+    {% csrf_token %}
+    <textarea placeholder="No que estou pensando hoje? (DESABILITADO)" rows="3"
+        class="border border-gray-200 rounded p-2 mb-2 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        name="message" required></textarea>
+    <div class="flex items-center justify-between">
+        <div class="flex space-x-3 text-gray-400 text-lg">
+            <button type="button" aria-label="Add user" class="hover:text-indigo-600"><svg
+                    xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor"
+                    stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 9v6M21 12h-6m-2 7a4 4 0 01-4-4V7a4 4 0 014-4h6a4 4 0 014 4v6a4 4 0 01-4 4z" />
+                </svg></button>
+            <button type="submit" aria-label="Send" class="hover:text-indigo-600"><svg
+                    xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor"
+                    stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 2L11 13" />
+                </svg></button>
+            <button type="button" aria-label="Emoji" class="hover:text-indigo-600"><svg
+                    xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" />
+                    <path d="M8 14s1 1.5 4 1.5 4-1.5 4-1.5" stroke="currentColor" stroke-width="2" fill="none" />
+                    <circle cx="9" cy="10" r="1" fill="currentColor" />
+                    <circle cx="15" cy="10" r="1" fill="currentColor" />
+                </svg></button>
+        </div>
+        <button type="submit"
+            class="bg-indigo-600 text-white px-4 py-1 rounded hover:bg-indigo-700 transition">Send</button>
+    </div>
+</form>

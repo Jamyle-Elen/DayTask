@@ -1,0 +1,86 @@
+<aside class="w-64 bg-gray-200 flex flex-col p-6 space-y-6 min-h-screen">
+    <div class="flex items-center space-x-3 mb-10">
+        <div class="w-8 h-8 rounded-full bg-pink-400 flex items-center justify-center text-white font-bold text-lg">●
+        </div>
+        <span class="font-bold text-lg">{{name}}</span>
+    </div>
+    <nav class="flex flex-col space-y-3 text-gray-600 text-sm font-semibold">
+        <a href="{% url 'home' %}" class="hover:text-gray-900 flex items-center gap-2 text-gray-400 {% if request.resolver_match.url_name == 'home' %}active{% endif %}" aria-disabled="true">
+            Home
+        </a>
+        <a href="{% url 'tasks:home' %}" class="nav-link hover:text-gray-900 flex items-center gap-2 text-gray-400 {% if request.resolver_match.url_name == 'home' %}active{% endif %}" aria-disabled="true">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            Profile
+        </a>
+        <a href="{% url 'tasks:list' %}" class="nav-link hover:text-gray-900 flex items-center gap-2 text-gray-400 {% if request.resolver_match.url_name == 'list' %}active{% endif %}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-40" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+            </svg>
+            Tasks
+        </a>
+        {% if user.is_superuser %}
+        <a href="{% url 'accounts:metrics' %}" class="nav-link hover:text-gray-900 flex items-center gap-2 text-gray-400 {% if request.resolver_match.url_name == 'metrics' %}active{% endif %}"
+            aria-disabled="true">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-40" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 17v-2a4 4 0 00-4-4H5m4 6h6" />
+            </svg>
+            Metrics
+        </a>
+        {% endif %}
+        {% if user.is_superuser %}
+        <abbr title="Em breve">
+            <a href="#" class="flex items-center gap-2 text-gray-400"
+               cursor-not-allowed>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-40" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 17a4 4 0 01-4-4m0 0V7a4 4 0 018 0v6a4 4 0 01-4 4z" />
+                </svg>
+                Settings
+            </a>
+        </abbr>
+        {% endif %}
+    </nav>
+    <form method="post" action="{% url 'accounts:logout' %}" class="fixed bottom-5 right-5 z-50">
+    {% csrf_token %}
+    <button type="submit" title="Logout"
+        class="hover:bg-gray-200 text-white p-3 rounded-full shadow-lg transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-600 rotate-180 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
+        </svg>
+    </button>
+</form>
+</aside>
+
+<script>
+const links = document.querySelectorAll('.nav-link');
+
+document.addEventListener("DOMContentLoaded", () => {
+  const defaultLink = document.querySelector('.nav-link.active');
+  if (defaultLink) {
+    defaultLink.classList.add('bg-white', 'rounded', 'px-3', 'py-2', 'shadow', 'text-indigo-700', 'hover:text-indigo-900', 'font-bold', 'flex', 'items-center', 'gap-2');
+  }
+});
+
+links.forEach(link => {
+  link.addEventListener('click', e => {
+
+    links.forEach(l => {
+      l.className = 'nav-link hover:text-gray-900 flex items-center gap-2 text-gray-400';
+      const svg = l.querySelector('svg');
+      if (svg) svg.className = 'h-4 w-4 opacity-40';
+    });
+
+    e.currentTarget.className = 'bg-white rounded px-3 py-2 shadow text-indigo-700 hover:text-indigo-900 font-bold flex items-center gap-2';
+    const svgAtivo = e.currentTarget.querySelector('svg');
+    if (svgAtivo) svgAtivo.className = 'h-4 w-4';
+  });
+});
+</script>

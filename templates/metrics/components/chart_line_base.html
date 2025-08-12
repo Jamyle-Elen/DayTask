@@ -1,0 +1,47 @@
+<div id="{{ container_id }}" class="w-full min-w-[280px] max-w-full">
+  <canvas id="{{ canvas_id }}" width="100%" height="40"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  (function() {
+    const labels = JSON.parse('{{ chart_data|escapejs }}');
+    const dataCounts = JSON.parse('{{ chart_data|escapejs }}');
+    const ctx = document.getElementById('{{ canvas_id }}').getContext('2d');
+    
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '{{ title }}',
+          data: dataCounts,
+          fill: false,
+          borderColor: '{{ border_color|default:"#7a5aff" }}',
+          backgroundColor: '{{ background_color|default:"#a37aff" }}',
+          tension: 0.3,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: '#5928ff', font: { size: 14, weight: 'bold' } } },
+          tooltip: { enabled: true, mode: 'nearest', intersect: false }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: '{{ x_axis_title|default:"Data" }}', color: '#5928ff', font: { size: 14, weight: 'bold' } },
+            ticks: { color: '#5928ff' }
+          },
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: '{{ y_axis_title|default:"Quantidade" }}', color: '#5928ff', font: { size: 14, weight: 'bold' } },
+            ticks: { color: '#5928ff', stepSize: 1 }
+          }
+        }
+      }
+    });
+  })();
+</script>

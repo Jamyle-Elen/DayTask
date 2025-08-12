@@ -26,3 +26,34 @@ Variaveis são enviadas diretamente por um contexto (em formato de dicionario)
 - Uso de Class-Based Views. - OK
 - Templates HTML com CSS básico. - OK
 - Implementação de rotas protegidas. - OK
+
+
+_______________________________________________________
+
+Entrega - 07/08/2025 (Validadas)
+
+Refatoração de class
+
+
+Entrega - 12/08/2025 (Validadas)
+
+Criar outro app chamado Usuario - OK (Mantive "accounts")
+Ajustar o settings - OK (Models ta indicando no APPS)
+Criar models -> class Usuario -> (nome, email(login -> unique), data_nascimento, sexo, endereco, CPF, -tipo_usuario-) - OK (Já possuia)
+usuario.views -> CreateView / Form (Usuario)-> cadastro.html (OK, normalizei o endereço da pessoa)
+
+tela gerenciamento de usuario CRUD (CBV: TemplateView, ou ListView) (Permissão de superUser) UpdateView, DeleteView, DetailView - OK (Falta o DetailView)
+esse gerenciamento (2 abas)
+1: lista com todos usuarios ->  AG-grid - OK
+2: pelo menos um gráfico Chart.js -  Rosca ... campo sexo - OK
+Barra ... campo data_nascimento -> calcular idade
+
+
+importar ag-grid no base.html - OK
+
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+
+Docs:
+https://www.chartjs.org/docs/latest/general/data-structures.html
+
+https://www.ag-grid.com/javascript-data-grid/getting-started/

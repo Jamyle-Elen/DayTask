@@ -18,8 +18,3 @@ class TaskForm(forms.ModelForm):
                 'class': 'underline'
             }),
         }
-
-# class TaskFormEdit(forms.ModelForm):
-#     class Meta:
-#         model = TaskModel
-#         fields = []

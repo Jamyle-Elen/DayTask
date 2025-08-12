@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+
+{% block title %}Editar task{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<section class="flex flex-col md:flex-row">
+    {% include 'tasks/components/sidebar.html' %}
+    
+
+    <div class="m-auto width-full pt-10 bg-gray-100 shadow-lg rounded-xl p-6 min-w-7xl min-h-[90vh] h-full">
+        {% include 'tasks/components/task_list.html' %}
+
+    </div>
+</section>
+
+{% endblock %}
