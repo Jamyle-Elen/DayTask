@@ -1,2 +1,51 @@
-.venv
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches
+*.log
+
+# Environment
 .env
+env/
+venv/
+ENV/
+.venv/
+
+# Database
+db.sqlite3
+
+# Django migrations
+# (NÃO IGNORAR, queremos comitar as migrations!)
+# migrations/__pycache__/
+# migrations/*.pyc
+
+# Static files
+staticfiles/
+static/
+
+# Media files (se usar)
+media/
+
+# VSCode settings
+.vscode/
+
+# Mac OS
+.DS_Store
+
+# PyCharm
+.idea/
+
+# Coverage reports
+htmlcov/
+.coverage
+
+# pytest
+.cache/
+
+# mypy
+.mypy_cache/
+
+# Others
+*.swp
